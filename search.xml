@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>联合索引学习笔记</title>
+      <link href="/posts/2025-03-09-%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html"/>
+      <url>/posts/2025-03-09-%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html</url>
+      
+        <content type="html"><![CDATA[<h1>联合索引底层以及内幕</h1><p><a href="https://mp.weixin.qq.com/s/8qemhRg5MgXs1So5YCv0fQ">联合索引底层</a></p><p><a href="https://blog.csdn.net/wangye135/article/details/140389620">MySQL覆盖索引和索引跳跃扫描-CSDN博客</a></p><p><img src="2025-03-09-%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20250407160156273-4012927.png" alt="image-20250407160156273"></p><h3 id="被问到过一个面试题：">被问到过一个面试题：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select a,c from t <span class="type">where</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">1</span> and b= <span class="number">2</span> order by c desc</span><br></pre></td></tr></table></figure><p>应该设置什么索引，c的升序和降序会有什么影响，哪个更快一点。</p><h3 id="升序索引与降序索引对查询性能的影响">升序索引与降序索引对查询性能的影响</h3><h4 id="1-查询排序方向与索引排序方向一致">1. 查询排序方向与索引排序方向一致</h4><ul><li><strong>升序索引用于升序查询</strong>：当创建的索引是 <code>(a, b, c ASC)</code>（<code>ASC</code> 表示升序，可省略），并且查询语句是 <code>ORDER BY c ASC</code> 时，数据库可以直接按照索引中 <code>c</code> 列的顺序来返回结果，无需额外的排序操作，这样能显著提升查询效率。因为索引已经按照升序排列好了，数据库可以直接从索引中获取有序的数据。</li><li><strong>降序索引用于降序查询</strong>：如果创建的索引是 <code>(a, b, c DESC)</code>，而查询语句是 <code>ORDER BY c DESC</code>，数据库同样可以直接利用索引中 <code>c</code> 列的降序排列来返回结果，避免了额外的排序开销。</li></ul><h4 id="2-查询排序方向与索引排序方向不一致">2. 查询排序方向与索引排序方向不一致</h4><ul><li><strong>升序索引用于降序查询</strong>：当使用 <code>(a, b, c ASC)</code> 索引，而查询语句是 <code>ORDER BY c DESC</code> 时，数据库可能无法直接利用索引的顺序，需要对从索引中获取的数据进行额外的降序排序操作。这会增加查询的时间和资源消耗，尤其是在处理大量数据时，性能下降会更明显。</li><li><strong>降序索引用于升序查询</strong>：类似地，若使用 <code>(a, b, c DESC)</code> 索引，而查询是 <code>ORDER BY c ASC</code>，数据库也需要对数据进行额外的升序排序，导致性能降低。</li></ul><h3 id="哪个更快取决于具体场景">哪个更快取决于具体场景</h3><ul><li><strong>如果查询中</strong> **<code>ORDER BY c</code>**的方向固定：<ul><li>若查询总是 <code>ORDER BY c ASC</code>，那么创建升序索引 <code>(a, b, c)</code> 会更快，因为可以直接利用索引的顺序。</li><li>若查询总是 <code>ORDER BY c DESC</code>，则创建降序索引 <code>(a, b, c DESC)</code> 更合适，能避免额外的排序操作。</li></ul></li><li><strong>如果查询中</strong> **<code>ORDER BY c</code>**的方向不固定：<ul><li>在某些数据库（如 MySQL 8.0 及以上版本）中，可以同时创建升序和降序索引，但这会增加索引维护的开销，因为每次插入、更新或删除数据时，都需要同时更新多个索引。</li><li>也可以考虑只创建一个升序索引，让数据库在需要降序排序时进行额外的排序操作。在数据量较小的情况下，这种额外排序的开销可能并不明显。</li></ul></li></ul><p><strong>示例代码</strong></p><p><strong>升序索引</strong></p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建升序索引</span></span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_a_b_c_asc <span class="keyword">ON</span> t (a, b, c);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 升序查询</span></span><br><span class="line"><span class="keyword">SELECT</span> a, c <span class="keyword">FROM</span> t <span class="keyword">WHERE</span> a <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> b <span class="operator">=</span> <span class="number">2</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> c <span class="keyword">ASC</span>;</span><br></pre></td></tr></table></figure><p><strong>降序索引</strong></p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建降序索引</span></span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_a_b_c_desc <span class="keyword">ON</span> t (a, b, c <span class="keyword">DESC</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 降序查询</span></span><br><span class="line"><span class="keyword">SELECT</span> a, c <span class="keyword">FROM</span> t <span class="keyword">WHERE</span> a <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> b <span class="operator">=</span> <span class="number">2</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> c <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure><p>综上所述，选择升序索引还是降序索引取决于查询中 <code>ORDER BY</code> 子句的排序方向。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Java基础面试题</title>
       <link href="/posts/2025-01-01-Java%E5%9F%BA%E7%A1%80.html"/>
       <url>/posts/2025-01-01-Java%E5%9F%BA%E7%A1%80.html</url>
