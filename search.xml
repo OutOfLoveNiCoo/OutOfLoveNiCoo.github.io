@@ -851,6 +851,8 @@
             
             <tag> 原理 </tag>
             
+            <tag> 项目 </tag>
+            
         </tags>
       
     </entry>
@@ -1067,7 +1069,7 @@
       
       <categories>
           
-          <category> 演学习 </category>
+          <category> 学习 </category>
           
       </categories>
       
@@ -1075,8 +1077,6 @@
         <tags>
             
             <tag> Markdown </tag>
-            
-            <tag> 外挂标签 </tag>
             
         </tags>
       
