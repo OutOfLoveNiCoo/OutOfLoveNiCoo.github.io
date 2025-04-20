@@ -304,6 +304,31 @@
     
     
     <entry>
+      <title>个人对DeepSeek原理的理解</title>
+      <link href="/posts/2025-02-20-%E4%B8%AA%E4%BA%BA%E5%AF%B9DeepSeek%E5%8E%9F%E7%90%86%E7%9A%84%E7%90%86%E8%A7%A3.html"/>
+      <url>/posts/2025-02-20-%E4%B8%AA%E4%BA%BA%E5%AF%B9DeepSeek%E5%8E%9F%E7%90%86%E7%9A%84%E7%90%86%E8%A7%A3.html</url>
+      
+        <content type="html"><![CDATA[<p><img src="2025-02-20-%E4%B8%AA%E4%BA%BA%E5%AF%B9DeepSeek%E5%8E%9F%E7%90%86%E7%9A%84%E7%90%86%E8%A7%A3/diagram.png" alt=""></p><h1>深入理解DeepSeek：从训练到概念的全面解析</h1><p>​在如今的人工智能领域，大模型可谓是备受关注的焦点。DeepSeek作为其中一员，有着独特的技术路径和理念。今天，就来跟大家聊聊我对DeepSeek的一些理解，一下仅仅是我个人的理解，不一定保证正确。</p><h2 id="一、大模型训练步骤">一、大模型训练步骤</h2><h3 id="预训练：对Transformer结构的改进">预训练：对Transformer结构的改进</h3><p>DeepSeek在预训练阶段，对Transformer结构进行了一系列改进。Transformer结构在当下的大模型中广泛应用，而DeepSeek的改进独具匠心。</p><ul><li><p><strong>DeepSeekMoE</strong>：这一改进针对的是前馈神经网络（FNN）。FNN在处理信息时起着关键作用，DeepSeekMoE对其进行优化，能够更高效地处理和传递信息，让模型在面对大量数据时，能够更准确地捕捉其中的特征和规律。deepseek取代了传统transformer的FNN（前馈神经网络），改用了DeepSeekMoE（稀疏专家网络层，每一个专家都是一个独立的神经网络，这些专家可以是FNN，也可以是MoE层本身），当我们input时，它会通过门控网络，采取路由的方式，找到合适的专家，与传统的MoE对比，DeepSeek使用更细粒度的专家，并将一些专家隔离为共享专家，能够减少专家之间的知识冗余。<strong>与单纯的FNN相比</strong>，采用这种方式进行训练，不需要使用所有的参数，只需要通过路由找到合适的专家就行，能够减少计算量。</p></li><li><p><strong>MLA（改进MHA）</strong>：多头注意力机制（MHA）是Transformer的核心部分之一。deepseek采用MLA机制，<strong>代替了传统的MHA</strong>,标准的Transformer 架构里面的MHA架构会产出非常多的KV Cache。相比MQA的KV共用和GQA的KV分组，MLA的核心是注意力键和值的低秩联合压缩，以减少推理过程中的键值(KV)缓存。相比MHA具有更好的性能，但需要的 KV 缓存量要少得多。KV Cache的缓存量少保证了DeepSeek的训练成本较低。</p></li><li><p><strong>MTP</strong>：MTP在训练阶段和推理阶段都有着重要作用。<strong>MTP 的全称是 Multi - Token Prediction</strong>（多令牌预测），与之对应的是 DeepSeek-V3 发布之前业界普遍使用的单令牌预测（Single - Token Prediction，STP），STP 一次仅预测一个Token，而 MTP 可同时预测多个 Token，<strong>这一方案在训练阶段可以提升数据训练效率，在推理阶段可以实现显著加速</strong>。</p></li><li><p><strong>并行训练策略：</strong>deepseek还采取了并行训练策略，通过HAI-LLM 框架进行训练，但是这块我不太了解。</p></li></ul><h3 id="后训练：强化学习（GRPO-改进PPO）">后训练：强化学习（GRPO - 改进PPO）</h3><p>在预训练之后，DeepSeek进入后训练阶段，采用强化学习的方式，具体是通过GRPO（改进的近端策略优化算法PPO）来实现。PPO本身是一种在强化学习中常用的算法，而GRPO对其进行改进，使得模型在与环境交互的过程中，能够更有效地调整自身策略。通过不断地尝试和反馈，模型可以学习到如何做出更优的决策，进一步提升其性能和表现。DeepSeek采用强化学习GRPO算法，对比原始的PPO方案(一次输出一个结果)，GRPO（一次输出多个结果然后选最优的）只需要训练一个模型，不用训练Critic Model，GRPO通过优化PPO算法，移除了价值模型，降低了计算开销，同时利用群体相对优势函数和KL散度惩罚，确保策略更新既高效又稳定。</p><h2 id="二、其他相关概念">二、其他相关概念</h2><h3 id="大模型概念">大模型概念</h3><p>大模型如今已经成为人工智能发展的重要方向。它具有强大的学习能力和泛化能力，能够处理各种复杂的任务。通过大规模的数据训练，大模型可以学习到丰富的知识和模式，从而在自然语言处理、图像识别等多个领域发挥重要作用。</p><h3 id="知识蒸馏概念">知识蒸馏概念</h3><p>知识蒸馏是一种将大型模型学到的知识迁移到小型模型中的技术。通过让小型模型模仿大型模型的输出，能够在不损失太多性能的前提下，降低模型的复杂度和计算成本。这对于实际应用中资源受限的场景非常有帮助，比如在一些移动设备或者边缘设备上，通过知识蒸馏得到的小型模型可以更快地运行，同时也能保持较好的效果。</p><h3 id="AI-Agent概念">AI Agent概念</h3><p>AI Agent是一种能够感知环境，并根据感知结果采取行动以实现目标的智能体。在DeepSeek相关的情境中，AI Agent可以利用DeepSeek模型的能力，与外部环境进行交互。它可以根据环境中的信息做出决策，执行相应的操作，并通过不断地学习和调整，更好地适应环境，完成各种任务。</p><h2 id="参考博客：">参考博客：</h2><p><a href="https://arxiv.org/abs/2501.12948">DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning</a></p><p><a href="https://www.zhihu.com/question/11797471137/answer/122885941335">DeepSeek v3与v1的区别</a></p><p><a href="https://mp.weixin.qq.com/s/fUumK29XohD7Wm5bTlyokg">DeepSeek-V3 高效训练关键技术分析</a></p><p><a href="https://mp.weixin.qq.com/s/W4LzpMb3cIn0zVlW2oVung">漫谈DeepSeek及其背后的核心技术</a></p><p><a href="https://zhuanlan.zhihu.com/p/29123783155">AI agent是什么</a></p><p><a href="https://zhuanlan.zhihu.com/p/81467832">知识蒸馏是什么？</a></p><p><a href="https://www.zhihu.com/question/10766825126/answer/88583863333">DeepSeek的GRPO算法是什么？</a></p><p><a href="https://zhuanlan.zhihu.com/p/25600081364">聊一聊DeepSeek中用到的GRPO算法</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 前沿 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Java基础面试题</title>
       <link href="/posts/2025-01-01-Java%E5%9F%BA%E7%A1%80.html"/>
       <url>/posts/2025-01-01-Java%E5%9F%BA%E7%A1%80.html</url>
