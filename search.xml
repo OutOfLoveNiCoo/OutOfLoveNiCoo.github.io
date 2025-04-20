@@ -783,6 +783,31 @@
     
     
     <entry>
+      <title>对XXL-JOB原理的理解</title>
+      <link href="/posts/2024-08-19-%E5%AF%B9XXL-JOB%E5%8E%9F%E7%90%86%E7%9A%84%E7%90%86%E8%A7%A3.html"/>
+      <url>/posts/2024-08-19-%E5%AF%B9XXL-JOB%E5%8E%9F%E7%90%86%E7%9A%84%E7%90%86%E8%A7%A3.html</url>
+      
+        <content type="html"><![CDATA[<p>​<strong>本人写过一个轻量级定时微服务NanoTimer，它功能虽然没有XXL-JOB丰富，但是更轻量，可以根据自己的DIY接入到每个自己写的项目中，下面说一下我的定时微服务和XXL-JOB有何不同。</strong></p><p><img src="2024-08-19-%E5%AF%B9XXL-JOB%E5%8E%9F%E7%90%86%E7%9A%84%E7%90%86%E8%A7%A3/diagram.png" alt=""></p><h2 id="个人简化：">个人简化：</h2><ul><li><p>1.xxl-job是通过 select * from xxl_job_lock where lock_name = ‘schedule_lock’ for update 来保证任务在同一时间只会被其中的一个调度中心触发一次，我是用的一个分布式锁确保一个桶只会被一个线程获取，说不清好坏，只能说架构不一样。</p></li><li><p>2.xxl-job是通过时间轮找到要执行的任务去执行的，我是通过高频轮询redis去找到要执行的任务然后去执行的。</p></li><li><p>3.我写的定时器有双重兜底机制，但是xxl-job更丰富，可以对超时任务进行针对性处理</p></li><li><p>4.xxl-job是通过http回调去执行任务的，我是通过mq回调任务的。mq更快。</p></li></ul><h2 id="参考博客：">参考博客：</h2><p><a href="https://www.cnblogs.com/fantongxue/p/16615093.html">轻量级分布式任务调度平台(XXL-JOB介绍、原理、工作流程、XXL-JOB环境搭建集成springboot) </a></p><p><a href="https://cloud.tencent.com/developer/article/2367296">8000字 + 25图探秘Xxl-Job核心架构原理</a></p><p><a href="https://juejin.cn/post/7083795682313633822">时间轮(TimingWheel)高性能定时任务原理解密</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 原理 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>好的博客分享</title>
       <link href="/posts/2024-08-09-%E5%A5%BD%E7%9A%84%E5%8D%9A%E5%AE%A2%E5%88%86%E4%BA%AB.html"/>
       <url>/posts/2024-08-09-%E5%A5%BD%E7%9A%84%E5%8D%9A%E5%AE%A2%E5%88%86%E4%BA%AB.html</url>
