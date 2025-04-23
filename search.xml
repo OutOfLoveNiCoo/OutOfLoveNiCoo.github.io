@@ -158,6 +158,31 @@
     
     
     <entry>
+      <title>暑期实习面经整理</title>
+      <link href="/posts/2025-04-10-%E6%9A%91%E6%9C%9F%E5%AE%9E%E4%B9%A0%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%86.html"/>
+      <url>/posts/2025-04-10-%E6%9A%91%E6%9C%9F%E5%AE%9E%E4%B9%A0%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%86.html</url>
+      
+        <content type="html"><![CDATA[<h1>腾讯HR事业线</h1><h2 id="1-ThreadLocal为什么不安全，怎么解决的">1.ThreadLocal为什么不安全，<strong>怎么解决的</strong></h2><h2 id="2-volatiet的原理，主存、防止指令重排序？为什么其它加锁的地方不需要用到volatiet，其它语言有这种特性吗？">2.volatiet的原理，主存、防止指令重排序？为什么其它加锁的地方不需要用到volatiet，其它语言有这种特性吗？</h2><h2 id="3-CAP理论，一致性哈希算法">3.CAP理论，一致性哈希算法</h2><h2 id="4-前端的一个页面突然特别慢，是为什么">4.前端的一个页面突然特别慢，是为什么</h2><h2 id="5-索引失效场景">5.索引失效场景</h2><h2 id="7-事务失效场景，事务传播行为">7.事务失效场景，事务传播行为</h2><h2 id="8-mysql特别慢，该怎么解决">8.mysql特别慢，该怎么解决</h2><h2 id="9-防止sql注入，-和-分别用到什么时候">9.防止sql注入，#和$分别用到什么时候</h2><h2 id="10-索引跳跃扫描">10.索引跳跃扫描</h2><h2 id="11-怎么样用redis的hash结构存储一个大key">11.怎么样用redis的hash结构存储一个大key</h2><h2 id="12-RDB和AOF为什么要混合使用">12.RDB和AOF为什么要混合使用</h2><h2 id="13-短链系统中，怎么样存储海量的长链">13.短链系统中，怎么样存储海量的长链</h2><h2 id="14-操作系统之间进程通信方式有哪些">14.操作系统之间进程通信方式有哪些</h2><h2 id="15-反问：提建议">15.反问：提建议</h2><p>学习最好的方式是看官方文档，这样知识不会被异化。</p><h1>字节飞书</h1><h2 id="1-设计模式代码题-单例模式和责任链模式">1.设计模式代码题    单例模式和责任链模式</h2><h2 id="2-写的单例是懒汉式还是饿汉式">2.写的单例是懒汉式还是饿汉式</h2><h2 id="3-八股-ThreadLocal、双亲委派、弱引用">3.八股  ThreadLocal、双亲委派、弱引用</h2><h2 id="4-双亲委派为什么要这么设计，答了防止类被重复加载，面试官不是很满意">4.双亲委派为什么要这么设计，答了防止类被重复加载，面试官不是很满意</h2><h2 id="5-场景题-有50万个坐标点，如何设计数据结构来找到距离一个点最近的10个点">5.场景题  有50万个坐标点，如何设计数据结构来找到距离一个点最近的10个点</h2><h2 id="6-代码题，现场想的，判断一个字符串是不是一个顺子，需要考虑10还有A既能当14又能当2">6.代码题，现场想的，判断一个字符串是不是一个顺子，需要考虑10还有A既能当14又能当2</h2><h2 id="7-为什么流式写入可以防止内存溢出">7.为什么流式写入可以防止内存溢出</h2><h2 id="8-如果写到一半程序崩溃了，写入一半的文件会怎样">8.如果写到一半程序崩溃了，写入一半的文件会怎样</h2><h1>美团点评事业部</h1><h2 id="1-项目相关：guava原理，guava线程池在执行任务的时候系统宕机了任务该怎么办？">1.项目相关：guava原理，guava线程池在执行任务的时候系统宕机了任务该怎么办？</h2><h2 id="2-Jwt垂直越权，水平越权">2.Jwt垂直越权，水平越权</h2><h2 id="3-事务失效场景">3.事务失效场景</h2><h2 id="4-completablefuture-allof-怎么设置超时时间">4.completablefuture.allof()怎么设置超时时间</h2><h2 id="5-怎么保证消息的顺序性">5.怎么保证消息的顺序性</h2><h2 id="6-如何保证消息插入redis一定成功">6.如何保证消息插入redis一定成功</h2><h2 id="7-数据库第一范式，第二范式，第三范式。违反会造成什么后果">7.数据库第一范式，第二范式，第三范式。违反会造成什么后果</h2><h2 id="8-innodb-的buffer-poll的刷盘机制，如果有唯一索引又会有什么变化">8.innodb 的buffer poll的刷盘机制，如果有唯一索引又会有什么变化</h2><h2 id="9-线程池工作原理，小于核心线程数时，如果来了新任务会发生什么">9.线程池工作原理，小于核心线程数时，如果来了新任务会发生什么</h2><h2 id="10-select-a-b-form-table-where-a-1-and-b-2-order-by-c-desc应该建立什么索引，升序降序会对性能造成怎么样的影响？">10.select a,b form table where a = 1 and b = 2 order by c desc应该建立什么索引，升序降序会对性能造成怎么样的影响？</h2><h2 id="11-实习中遇到的难点，最近在学的东西，怎么去学习的">11.实习中遇到的难点，最近在学的东西，怎么去学习的</h2><h2 id="12-手撕">12.手撕</h2><h2 id="一面：sql-反转链表II">一面：sql + 反转链表II</h2><h2 id="二面：美团自己出的acm形式的题，看不懂差点寄了">二面：美团自己出的acm形式的题，看不懂差点寄了</h2><h1>美团无人机</h1><h2 id="1-自我介绍（学习-校园-竞赛-科研）">1. 自我介绍（学习+校园+竞赛+科研）</h2><h2 id="2-简单问一下科研主要做的内容">2. 简单问一下科研主要做的内容</h2><h2 id="3-为什么最后选择开发（喜欢逻辑的东西）">3. 为什么最后选择开发（喜欢逻辑的东西）</h2><h2 id="4-他自己介绍下那边无人机外卖业务">4. 他自己介绍下那边无人机外卖业务</h2><h2 id="5-说一下redis你有应用哪些场景（缓存：解释redis为什么做缓存，为什么快，单线程io多路复用，分布式锁-setnx和redission-redisson的redlock-和watch-dog大致说一下）">5. 说一下redis你有应用哪些场景（缓存：解释redis为什么做缓存，为什么快，单线程io多路复用，分布式锁 setnx和redission redisson的redlock 和watch dog大致说一下）</h2><h2 id="6-说一下分布式锁的项目应用">6. 说一下分布式锁的项目应用</h2><h2 id="7-说一下redis集群，主从和分片讲了下">7. 说一下redis集群，主从和分片讲了下</h2><h2 id="8-说一下分布式锁不是可能失效。讲了下redlock要redis集群多数都成功才能算分布式锁成功，失效情况很极端，比较少会碰到">8. 说一下分布式锁不是可能失效。讲了下redlock要redis集群多数都成功才能算分布式锁成功，失效情况很极端，比较少会碰到</h2><h2 id="9-如果订单需要兜底方案，三个小时后需要去检查有无完成，没有则警告">9. 如果订单需要兜底方案，三个小时后需要去检查有无完成，没有则警告</h2><h2 id="10-给你业务场景（无人机送外卖，一个接口相当于你只知道订单id，在不同情况需要返回比如起飞时候要有起飞机场无人机-如果派送中需要所处的位置等等）">10. 给你业务场景（无人机送外卖，一个接口相当于你只知道订单id，在不同情况需要返回比如起飞时候要有起飞机场无人机 如果派送中需要所处的位置等等）</h2><p>用状态机+连表查询巴拉巴拉（问了代码大致要怎么实现）然后说数据库表怎么设计，我没get到点，我就说了符合范式大致订单表有哪些字段对应哪些表，然后说了那这样不是连表查询很多怎么优化，我说像是机场这种信息可以作为缓存，因为本身这些信息不会咋变动，能不能继续优化，我询问订单是否是短时间的，如果是短时间的整个订单信息都可以作为缓存，因为类似于外卖可能只有在送的一小时之内会频繁查询后续删除缓存写入数据库。缓存数据库一致性 我就说了分强一致性场景双写（本场景），弱一致性先写数据库删除缓存，后续读不到缓存就能去数据库更新缓存，再问如果我现在整个接口那些信息查询都是别的系统的数据库不能直接查询要调用接口（分布式缓存、消息队列传数据不行）假设有一个接口就是3s其他都是1s之内。想法木桶效应，那就需要解决最长时常接口，可能那个接口不是经常变动的或者说允许一个数据延时误差，就这个数据我做缓存然后轮询定时任务进行更新，可能数据会有一定的滞后性，但是可以保证接口的响应速度</p><h2 id="11-手撕：">11. 手撕：</h2><p>开撕滑动窗口239</p><h1>其它面经</h1><p>饿了么、腾讯PCG、菜鸟、炎魂网络、滴滴待整理。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 面试题 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 面经 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>深入探讨多线程操作数组背后的CPU伪共享与MESI协议</title>
       <link href="/posts/2025-04-01-%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%93%8D%E4%BD%9C%E6%95%B0%E7%BB%84%E8%83%8C%E5%90%8E%E7%9A%84CPU%E4%BC%AA%E5%85%B1%E4%BA%AB%E4%B8%8EMESI%E5%8D%8F%E8%AE%AE.html"/>
       <url>/posts/2025-04-01-%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%93%8D%E4%BD%9C%E6%95%B0%E7%BB%84%E8%83%8C%E5%90%8E%E7%9A%84CPU%E4%BC%AA%E5%85%B1%E4%BA%AB%E4%B8%8EMESI%E5%8D%8F%E8%AE%AE.html</url>
@@ -885,6 +910,31 @@
     
     
     <entry>
+      <title>个人开发经验与问题总结</title>
+      <link href="/posts/2024-10-19-%E4%B8%AA%E4%BA%BA%E5%BC%80%E5%8F%91%E7%BB%8F%E9%AA%8C%E4%B8%8E%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93.html"/>
+      <url>/posts/2024-10-19-%E4%B8%AA%E4%BA%BA%E5%BC%80%E5%8F%91%E7%BB%8F%E9%AA%8C%E4%B8%8E%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93.html</url>
+      
+        <content type="html"><![CDATA[<h1>个人开发经验与问题总结：</h1><h2 id="思维导图：">思维导图：</h2><p><strong>详细内容后面补😭</strong></p><p><img src="2024-10-19-%E4%B8%AA%E4%BA%BA%E5%BC%80%E5%8F%91%E7%BB%8F%E9%AA%8C%E4%B8%8E%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/image-20250423201730460.png" alt="image-20250423201730460"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 思维导图 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>对XXL-JOB原理的理解</title>
       <link href="/posts/2024-08-19-%E5%AF%B9XXL-JOB%E5%8E%9F%E7%90%86%E7%9A%84%E7%90%86%E8%A7%A3.html"/>
       <url>/posts/2024-08-19-%E5%AF%B9XXL-JOB%E5%8E%9F%E7%90%86%E7%9A%84%E7%90%86%E8%A7%A3.html</url>
@@ -979,6 +1029,31 @@
         <tags>
             
             <tag> 算法 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>手撕一个简易线程池</title>
+      <link href="/posts/2023-08-09-%E6%89%8B%E6%92%95%E4%B8%80%E4%B8%AA%E7%AE%80%E6%98%93%E7%BA%BF%E7%A8%8B%E6%B1%A0.html"/>
+      <url>/posts/2023-08-09-%E6%89%8B%E6%92%95%E4%B8%80%E4%B8%AA%E7%AE%80%E6%98%93%E7%BA%BF%E7%A8%8B%E6%B1%A0.html</url>
+      
+        <content type="html"><![CDATA[<h1>手撕一个简易线程池</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyThreadPool</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> BlockingQueue&lt;Runnable&gt; queue = <span class="keyword">new</span> <span class="title class_">LinkedBlockingQueue</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">submit</span><span class="params">(Runnable runnable)</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">        queue.put(runnable);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MyThreadPool</span><span class="params">(<span class="type">int</span> m)</span> &#123;</span><br><span class="line">        <span class="comment">// 在构造方法中, 创建出 M 个线程. 负责完成工作.</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">            <span class="type">Thread</span> <span class="variable">t</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">                <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="type">Runnable</span> <span class="variable">runnable</span> <span class="operator">=</span> queue.take();</span><br><span class="line">                        runnable.run();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            t.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestMyThreadPool</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">        <span class="type">MyThreadPool</span> <span class="variable">pool</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MyThreadPool</span>(<span class="number">10</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">taskId</span> <span class="operator">=</span> i;</span><br><span class="line">            pool.submit(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">                    System.out.println(<span class="string">&quot;执行当前任务: &quot;</span> + taskId + <span class="string">&quot; 当前线程: &quot;</span> + Thread.currentThread().getName());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>开发中我是这样创建的</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ThreadPoolConfig</span> &#123;</span><br><span class="line">    <span class="meta">@Bean(&quot;task-thread-pool-executor&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> ThreadPoolExecutor <span class="title function_">threadPoolExecutor</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">ThreadPoolExecutor</span> <span class="variable">threadPoolExecutor</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ThreadPoolExecutor</span>(</span><br><span class="line">                <span class="number">10</span>,</span><br><span class="line">                <span class="number">50</span>,</span><br><span class="line">                <span class="number">60</span>,</span><br><span class="line">                TimeUnit.SECONDS,</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">ArrayBlockingQueue</span>&lt;Runnable&gt;(<span class="number">300</span>),</span><br><span class="line">                (r, executor) -&gt; &#123;</span><br><span class="line">                    log.info(<span class="string">&quot;线程池已满，任务&#123;&#125;,被丢弃&quot;</span>, r.toString());</span><br><span class="line">                &#125;</span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">return</span> threadPoolExecutor;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 算法 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JUC </tag>
             
         </tags>
       
