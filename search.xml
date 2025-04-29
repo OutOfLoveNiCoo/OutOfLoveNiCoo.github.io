@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>QUIC-如何用UDP实现可靠传输</title>
+      <link href="/posts/2025-04-29-QUIC-%E5%A6%82%E4%BD%95%E7%94%A8UDP%E5%AE%9E%E7%8E%B0%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93.html"/>
+      <url>/posts/2025-04-29-QUIC-%E5%A6%82%E4%BD%95%E7%94%A8UDP%E5%AE%9E%E7%8E%B0%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93.html</url>
+      
+        <content type="html"><![CDATA[<h1 id="思维导图："><a href="#思维导图：" class="headerlink" title="思维导图："></a>思维导图：</h1><p><img src="2025-04-29-QUIC-如何用UDP实现可靠传输/diagram.png" alt=""></p><h1 id="QUIC：如何用UDP实现可靠传输"><a href="#QUIC：如何用UDP实现可靠传输" class="headerlink" title="QUIC：如何用UDP实现可靠传输"></a>QUIC：如何用UDP实现可靠传输</h1><p>在网络传输领域，TCP协议长期作为可靠传输的标杆，但其固有缺陷如队头阻塞、连接迁移成本高、握手延迟长等，逐渐成为高性能网络应用的瓶颈。QUIC协议（快速UDP互联网连接）的出现，通过在UDP之上构建全新的可靠传输体系，不仅继承了UDP的高效性，更针对性解决了TCP的痛点，成为HTTP/3的底层支撑协议。</p><h2 id="一、为何选择UDP实现可靠传输？"><a href="#一、为何选择UDP实现可靠传输？" class="headerlink" title="一、为何选择UDP实现可靠传输？"></a>一、为何选择UDP实现可靠传输？</h2><p>TCP的可靠传输依赖内核实现，升级困难且灵活性不足。其基于四元组的连接标识在网络迁移时（如4G切换至WiFi）需重建连接，三次握手与TLS协商带来至少2-3RTT的延迟。此外，TCP的队头阻塞问题导致单个数据包丢失会阻塞整个连接，严重影响并发性能。而UDP作为无连接协议，虽不可靠但轻量高效，在应用层实现可靠传输逻辑，既能保留UDP的低延迟优势，又能通过定制化设计规避TCP的缺陷。</p><h2 id="二、QUIC的可靠传输核心机制"><a href="#二、QUIC的可靠传输核心机制" class="headerlink" title="二、QUIC的可靠传输核心机制"></a>二、QUIC的可靠传输核心机制</h2><h3 id="1-分层头部设计：精准控制与有序交付"><a href="#1-分层头部设计：精准控制与有序交付" class="headerlink" title="1. 分层头部设计：精准控制与有序交付"></a>1. 分层头部设计：精准控制与有序交付</h3><p>QUIC在UDP报文与应用数据间引入三层头部：</p><ul><li><p><strong>Packet Header</strong>：分为首次连接的Long Header（协商连接ID）与日常传输的Short Header（仅含目标连接ID与单调递增的Packet Number）。Packet Number严格递增，即使重传包也分配新编号，避免TCP重传时的序列号歧义问题，精确计算RTT并支持乱序确认。</p></li><li><p><strong>QUIC Frame Header</strong>：承载Stream ID（区分并发流，类似HTTP/2的流标识）、Offset（数据偏移量，确保同流数据有序）与Length（数据长度）。通过Stream ID+Offset组合，接收端可将不同Packet Number的重传包正确组装，解耦传输编号与数据顺序，实现流级有序性。</p></li></ul><h3 id="2-突破队头阻塞：流级独立控制"><a href="#2-突破队头阻塞：流级独立控制" class="headerlink" title="2. 突破队头阻塞：流级独立控制"></a>2. 突破队头阻塞：流级独立控制</h3><p>TCP的队头阻塞源于接收窗口依赖有序数据，单个丢包导致全局阻塞。QUIC通过stream(可以看作一个HTTP请求）滑动窗口彻底解决这一问题：</p><ul><li><p>每条Stream（如HTTP请求）拥有独立的接收窗口，某一流的丢包仅影响自身，不阻塞其他流的数据处理。例如，Stream2丢包时，Stream1、3的数据包仍可被接收端正常读取。</p></li><li><p>接收窗口滑动条件优化：TCP需连续确认才能移动窗口，而QUIC根据接收的最大偏移量动态调整，允许乱序确认，只要同流后续数据到达，窗口即可右移，提升带宽利用率。</p></li></ul><h3 id="3-双重流量控制：细粒度资源管理"><a href="#3-双重流量控制：细粒度资源管理" class="headerlink" title="3. 双重流量控制：细粒度资源管理"></a>3. 双重流量控制：细粒度资源管理</h3><ul><li><p><strong>Stream级流量控制</strong>：限制单个流的发送量，避免某一流占用过多接收缓冲。接收端通过window_update帧通知发送端可用窗口，基于最大偏移量动态调整，支持更灵活的流量分配。</p></li><li><p><strong>Connection级流量控制</strong>：全局限制所有流的总数据量，确保连接层缓冲不被耗尽。两者结合，在并发场景下实现资源的高效分配与保护。</p></li></ul><h3 id="4-拥塞控制：应用层的灵活创新"><a href="#4-拥塞控制：应用层的灵活创新" class="headerlink" title="4. 拥塞控制：应用层的灵活创新"></a>4. 拥塞控制：应用层的灵活创新</h3><p>QUIC默认采用TCP的Cubic算法，同时支持BBR、PCC等多种算法，且无需内核支持，可随应用升级快速迭代。这种应用层实现的特性，使不同业务（如视频流与文件传输）可定制专属拥塞策略，打破TCP全局算法的局限性。</p><h2 id="三、连接优化：更快建立与无缝迁移"><a href="#三、连接优化：更快建立与无缝迁移" class="headerlink" title="三、连接优化：更快建立与无缝迁移"></a>三、连接优化：更快建立与无缝迁移</h2><h3 id="1-极速握手：1RTT建立连接"><a href="#1-极速握手：1RTT建立连接" class="headerlink" title="1. 极速握手：1RTT建立连接"></a>1. 极速握手：1RTT建立连接</h3><p>传统TCP+TLS需3RTT（TCP三次握手1RTT+TLS四次握手2RTT），QUIC整合TLS1.3，在首次握手时仅需1RTT完成连接建立与密钥协商。会话恢复时，客户端可发送携带历史连接ID的0RTT数据包，直接传输数据，消除握手延迟。</p><h3 id="2-连接迁移：ID标识取代四元组"><a href="#2-连接迁移：ID标识取代四元组" class="headerlink" title="2. 连接迁移：ID标识取代四元组"></a>2. 连接迁移：ID标识取代四元组</h3><p>QUIC通过Connection ID唯一标识连接，而非TCP的（源IP、端口+目标IP、端口）四元组。当设备网络切换导致IP变化时，只需更新底层传输地址，保留Connection ID即可无缝延续连接，避免重建带来的时延与资源消耗，尤其适合移动场景。</p><h2 id="四、对比TCP：优势总结"><a href="#四、对比TCP：优势总结" class="headerlink" title="四、对比TCP：优势总结"></a>四、对比TCP：优势总结</h2><div class="table-container"><table><thead><tr><th>特性</th><th>TCP</th><th>QUIC</th></tr></thead><tbody><tr><td>连接标识</td><td>四元组</td><td>独立Connection ID</td></tr><tr><td>握手延迟</td><td>2-3RTT（含TLS）</td><td>1RTT（首次），0RTT（恢复）</td></tr><tr><td>队头阻塞</td><td>传输层全局阻塞</td><td>流级独立，互不影响</td></tr><tr><td>拥塞控制</td><td>内核实现，升级慢</td><td>应用层定制，灵活迭代</td></tr><tr><td>网络迁移</td><td>需重建连接</td><td>无缝迁移，保留上下文</td></tr></tbody></table></div><h2 id="五、应用与未来"><a href="#五、应用与未来" class="headerlink" title="五、应用与未来"></a>五、应用与未来</h2><p>QUIC已在HTTP/3中广泛应用，显著提升网页加载速度与抗丢包能力，尤其在高延迟或不稳定网络环境下优势明显。其设计理念——在不可靠传输层构建可定制的可靠逻辑，为实时通信、物联网等场景提供了新范式。随着标准化进程推进（如IETF将其纳入RFC 9000系列），QUIC有望成为下一代网络传输的核心协议，引领从“尽力而为”到“精准可靠”的传输革命。</p><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>我认为QUIC的诞生并非对TCP的全盘否定，而是针对现代网络需求的突破性创新。通过将可靠传输逻辑上移至应用层，结合UDP的高效性与灵活的分层设计，它成功解决了TCP长期存在的痛点，为高性能、低延迟的网络应用开辟了新路径。在5G、边缘计算蓬勃发展的今天，QUIC的价值将愈发凸显，推动网络传输向更智能、更可靠的方向迈进。</p><h2 id="参考博客："><a href="#参考博客：" class="headerlink" title="参考博客："></a>参考博客：</h2><blockquote><p><a href="https://mp.weixin.qq.com/s/9kHoRk6QIYOFUR_PCmHY6g">TCP痛点</a></p><p><a href="https://xiaolincoding.com/network/3_tcp/quic.html#quic-%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84">4.17 如何基于 UDP 协议实现可靠传输？</a></p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 前沿 </tag>
+            
+            <tag> 计算机网络 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Redis高可用个人总结</title>
       <link href="/posts/2025-04-25-Redis%E9%AB%98%E5%8F%AF%E7%94%A8%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93.html"/>
       <url>/posts/2025-04-25-Redis%E9%AB%98%E5%8F%AF%E7%94%A8%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93.html</url>
