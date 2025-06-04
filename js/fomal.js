@@ -2804,8 +2804,8 @@ function createtime() {
   let currentTimeHtml = "";
   (currentTimeHtml =
     hnum < 18 && hnum >= 9
-      ? `<img class='boardsign' src='http://pic.yupoo.com/outoflovenicoo/6ed24caa/985c9a15.png' title='什么时候能够实现财富自由呀~'><br> <div style="font-size:13px;font-weight:bold">本站居然运行了 ${dnum} 天 ${hnum} 小时 ${mnum} 分 ${snum} 秒 <i id="heartbeat" class='fas fa-heartbeat'></i> <br> 旅行者 1 号当前距离地球 ${dis} 千米，约为 ${unit} 个天文单位 🚀</div>`
-      : `<img class='boardsign' src='http://pic.yupoo.com/outoflovenicoo/eb649062/48c157cf.png' title='下班了就该开开心心地玩耍~'><br> <div style="font-size:13px;font-weight:bold">本站居然运行了 ${dnum} 天 ${hnum} 小时 ${mnum} 分 ${snum} 秒 <i id="heartbeat" class='fas fa-heartbeat'></i> <br> 旅行者 1 号当前距离地球 ${dis} 千米，约为 ${unit} 个天文单位 🚀</div>`),
+      ? `<img class='boardsign' src='https://pic1.imgdb.cn/item/6840615458cb8da5c82ce680.png' title='什么时候能够实现财富自由呀~'><br> <div style="font-size:13px;font-weight:bold">本站居然运行了 ${dnum} 天 ${hnum} 小时 ${mnum} 分 ${snum} 秒 <i id="heartbeat" class='fas fa-heartbeat'></i> <br> 旅行者 1 号当前距离地球 ${dis} 千米，约为 ${unit} 个天文单位 🚀</div>`
+      : `<img class='boardsign' src='https://pic1.imgdb.cn/item/6840613f58cb8da5c82ce67f.png' title='下班了就该开开心心地玩耍~'><br> <div style="font-size:13px;font-weight:bold">本站居然运行了 ${dnum} 天 ${hnum} 小时 ${mnum} 分 ${snum} 秒 <i id="heartbeat" class='fas fa-heartbeat'></i> <br> 旅行者 1 号当前距离地球 ${dis} 千米，约为 ${unit} 个天文单位 🚀</div>`),
     document.getElementById("workboard") &&
     (document.getElementById("workboard").innerHTML = currentTimeHtml);
 }
@@ -3178,11 +3178,15 @@ if (localStorage.getItem("blogbg") != undefined) {
   setBg(localStorage.getItem("blogbg"));
 } else {
   document.getElementById("defineBg").innerText = `:root{
-    --default-bg: url(https://pic.yupoo.com/outoflovenicoo/cfcf1ec4/9b6d5585.jpeg);
-    --darkmode-bg:url(http://pic.yupoo.com/outoflovenicoo/7dcbe25f/06d56af1.jpeg);
-    --mobileday-bg: url(http://pic.yupoo.com/outoflovenicoo/fbce4fce/cb007cc2.jpeg);
-    --mobilenight-bg: url(http://pic.yupoo.com/outoflovenicoo/13d41f05/bd4660db.jpeg);
+    --default-bg: url(https://pic1.imgdb.cn/item/68405eea58cb8da5c82ce4b9.jpg);
+    --darkmode-bg:url(https://pic1.imgdb.cn/item/68405e8c58cb8da5c82ce495.jpg);
+    --mobileday-bg: url(https://pic1.imgdb.cn/item/68405e8b58cb8da5c82ce492.jpg);
+    --mobilenight-bg: url(https://pic1.imgdb.cn/item/68405e8c58cb8da5c82ce493.jpg);
   }`;
+  // --default-bg: url(https://pic.yupoo.com/outoflovenicoo/cfcf1ec4/9b6d5585.jpeg);
+  //   --darkmode-bg:url(http://pic.yupoo.com/outoflovenicoo/7dcbe25f/06d56af1.jpeg);
+  //   --mobileday-bg: url(http://pic.yupoo.com/outoflovenicoo/fbce4fce/cb007cc2.jpeg);
+  //   --mobilenight-bg: url(http://pic.yupoo.com/outoflovenicoo/13d41f05/bd4660db.jpeg);
 }
 // 切换背景主函数
 function changeBg(s) {
